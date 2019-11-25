@@ -19,7 +19,7 @@ constructor(props){
 
 //a partir do event.target , pegaremos o name e o value do campo
 escutadorDeInput = event =>{
-     const {name , value} = event.target;
+     const {name,value} = event.target;
 
      //A cada evento disparado de mudança de input,queremos atualizar o estado
      //do componente para que a mudança seja refletida na tela.Faremos isso por meio
@@ -28,7 +28,13 @@ escutadorDeInput = event =>{
          [name]:value
      });
 }
-
+//Método que irá a partir do props , chamar o escutadorDeSubmit 
+ submitFormulario = () =>{
+     //Passa como parametro this.state , enviando as informações do novo autor para o APP.js
+     this.props.escutadorDeSubmit(this.state);
+     //Zeraremos os campos desse formulario setando-o com this.stateInicial
+     this.setState(this.stateInicial)
+ }
     render() {
         //Pegamos os valores de state através das chaves nome , livro e preco
         const {nome,livro,preco}= this.state;
@@ -58,7 +64,9 @@ escutadorDeInput = event =>{
                     value ={preco}
                     onChange = {this.escutadorDeInput}
                     />
-                <button type="button">Salvar</button>
+                 {/*O método submitFormulario será disparado no clique do botão Salvar , 
+                 com a definição do atributo onClick*/}
+                <button type="button" onClick ={this.submitFormulario}>Salvar</button>
             </form>
         )
     }

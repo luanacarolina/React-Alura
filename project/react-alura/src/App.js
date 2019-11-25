@@ -67,7 +67,10 @@ class App extends Component {
       }
     );
    }
-
+   escutadorDeSubmit = autor =>{
+     //seta o estado do nosso componente utilizando o spread operator ,adicionando a unidade autor que foi recebida
+     this.setState({autores:[...this.state.autores,autor]})
+   }
   //Componente criado por meio de uma classe precisa 
   //obrigatoriamente , da declaração do método render().
   //Passamos o retorno para dentro desse metodo.
@@ -76,7 +79,7 @@ class App extends Component {
     //this.state.autores , acessa a chave autores por meio do state
    <>
       <Tabela autores = {this.state.autores} removeAutor = {this.removeAutor}/>
-   <Form/>
+   <Form  escutadorDeSubmit= {this.escutadorDeSubmit}/>
    </>// O Fragment retorna tags irmãs sem necessariamente ter um wrapper que as renderize no HTML.
   );
 }
