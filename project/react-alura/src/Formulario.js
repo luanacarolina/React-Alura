@@ -40,7 +40,9 @@ escutadorDeInput = event =>{
         const {nome,livro,preco}= this.state;
         return (
             <form>
-                <label htmlFor="nome">Nome</label>
+                <div className ="row">
+                    <div className ="input-field col s4">
+                <label className ="input-field" htmlFor="nome">Nome</label>
                 <input
                     id="nome"
                     type="text"
@@ -48,7 +50,9 @@ escutadorDeInput = event =>{
                     value ={nome}
                     onChange = {this.escutadorDeInput}
                 />
-                <label htmlFor="livro">Livro</label>
+                </div>
+                <div className ="input-field col s4">
+                <label className ="input-field" htmlFor="livro">Livro</label>
                 <input
                     id="livro"
                     type="text"
@@ -56,7 +60,9 @@ escutadorDeInput = event =>{
                     value ={livro}
                     onChange = {this.escutadorDeInput}
                 />
-                <label htmlFor="preco">Preço</label>
+                </div>
+                <div className ="input-field col s4">
+                <label className ="input-field" htmlFor="preco">Preço</label>
                 <input
                     id ="livro"
                     type = "text"
@@ -64,9 +70,11 @@ escutadorDeInput = event =>{
                     value ={preco}
                     onChange = {this.escutadorDeInput}
                     />
+                    </div>
                  {/*O método submitFormulario será disparado no clique do botão Salvar , 
                  com a definição do atributo onClick*/}
-                <button type="button" onClick ={this.submitFormulario}>Salvar</button>
+                 </div>
+                <button className ="waves-effect waves-light indigo lighten-2 btn" type="button" onClick ={this.submitFormulario}>Salvar</button>
             </form>
         )
     }

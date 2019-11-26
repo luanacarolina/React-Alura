@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import 'materialize-css/dist/css/materialize.min.css';
+import Header from './components/Cabecalho/Header';
 import Tabela from './Tabela';
 import Form from './Formulario';
 
@@ -78,8 +79,11 @@ class App extends Component {
   return (
     //this.state.autores , acessa a chave autores por meio do state
    <>
+     <Header/>
+     <div className ="container">
       <Tabela autores = {this.state.autores} removeAutor = {this.removeAutor}/>
    <Form  escutadorDeSubmit= {this.escutadorDeSubmit}/>
+   </div>
    </>// O Fragment retorna tags irmãs sem necessariamente ter um wrapper que as renderize no HTML.
   );
 }
