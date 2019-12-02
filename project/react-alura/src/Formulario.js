@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import FormValidator from './FormValidator';
 
 class Formulario extends Component {
 
@@ -6,6 +7,14 @@ class Formulario extends Component {
 constructor(props){
     //Passamos o props para o componente com o super
     super (props);
+    //Criamos uma instancia de da classe FormValidator
+    //que recebe um obj JSON com a regra de validação do campo , composta pelo nome do campo 
+    //e o método que queremos utilizar do Validator , por exemplo isEmpty().
+    this.validador = new FormValidator({
+        campo: 'nome',
+        metodo:'isEmpty'
+        
+    });
 
     //Criamos um obj com o estado inicial do nosso form
     this.stateInicial = {
@@ -30,11 +39,15 @@ escutadorDeInput = event =>{
 }
 //Método que irá a partir do props , chamar o escutadorDeSubmit 
  submitFormulario = () =>{
+     //Verificamos o retorno da chamada do método valida , quando o botão salvar
+     //do formulario enviar as informaçoes , adicionando um elemento na tela
+     if(this.validador.valida(this.state)){
      //Passa como parametro this.state , enviando as informações do novo autor para o APP.js
      this.props.escutadorDeSubmit(this.state);
      //Zeraremos os campos desse formulario setando-o com this.stateInicial
      this.setState(this.stateInicial)
  }
+}
     render() {
         //Pegamos os valores de state através das chaves nome , livro e preco
         const {nome,livro,preco}= this.state;
