@@ -2,25 +2,73 @@ import validador from 'validator';
 
 //Classe que possui o método valida que recebe 
 //um state e executa um console.log com a mensagem validado e returna um false
-class FormValidator{
-    //Criamos um construtor que recebe a validacao
-    constructor(validacao){
-        this.validacao = validacao;
-    }
-    valida(state){
-        //Pegamos o valor recebido no campo e parseamos os dados para String , pois a biblioteca Validator trabalha somente com strings.
-        const campoValor = state[this.validacao.campo.toString()];
-        //Em seguida recuperamos o método sendo passado pelo validador(metodoValidacao) a partir de validador[this.validacao.metodo]
-        const metodoValidacao = validador[this.validacao.metodo];
+class FormValidator {
 
-        //Se o retorno de metodoValidacao(campoValor,[],state) é true , se positivo nosso formulario é invalido , caso contrario form valido
-        if(metodoValidacao(campoValor,[],state)===true){
-            console.log("Form Invalido");
-            return false;
-        }else{
-            console.log("Form Valido");
-            return true;
-        }
+    //Criamos um construtor que recebe a validacao
+    constructor(validacoes) {
+        this.validacoes = validacoes;
     }
+    valida(state) {
+
+        //itera pelo array de regras de validação e constrói
+        //um objeto validacao e retorna-o
+
+        //começa assumindo que está tudo válido, recebe o 
+        //objeto do método valido.
+        let validacao = this.valido();
+
+        this.validacoes.forEach(regra => {
+
+            //Se o campo não tiver sido marcado 
+            //anteriormente como invalido por uma regra.
+            if (!validacao[regra.campo].isInvalid) {
+                //Determina o valor do campo, o método a ser invocado
+                //e os argumentos opcionais pela definição da regra
+                const campoValor = state[regra.campo.toString()];
+                const args = regra.args || [];
+                //if ternário para estar preparado caso 
+                //alguém passe o método direto sem ser string
+                const metodoValidacao = typeof regra.metodo === 'string' ?
+                    validador[regra.metodo] : regra.metodo;
+
+                //invoca o método específico da regra
+                if (metodoValidacao(campoValor, ...args, state) !== regra.validoQuando) {
+
+                    //modifica o objeto no campo específico
+                    validacao[regra.campo] = {
+                        isInvalid: true,
+                        message: regra.mensagem
+                    };
+                    validacao.isValid = false;
+
+                }
+            }
+
+
+        });
+        return validacao;
+    }
+
+
+
+
+    valido() {
+        //criação do objeto
+        const validacao = {};
+
+        //populando o objeto de acordo com a quantidade de campos
+        //criando a chave isInvalid e atribuindo false para cada
+        //**TODOS OS CAMPOS COMEÇAM VÁLIDOS!**
+        this.validacoes.map(regra => (
+            validacao[regra.campo] = { isInvalid: false, message: '' }
+        ));
+
+        //retorna um grande objeto com uma chave externa isValid 
+        //junto com todos os outros campos.
+        return { isValid: true, ...validacao };
+
+    }
+
+
 }
 export default FormValidator;
