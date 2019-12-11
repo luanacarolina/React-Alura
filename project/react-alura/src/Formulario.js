@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import FormValidator from './FormValidator';
+import PopUp from './PopUp';
 
 class Formulario extends Component {
 
@@ -76,9 +77,13 @@ class Formulario extends Component {
             const camposInvalidos = campos.filter(elem => {
                 return elem.isInvalid;
             });
-            //Para cada elemento em camposInvalidos , aplicaremos um console.log
-            camposInvalidos.forEach(console.log);
+            //Para cada elemento em camposInvalidos , faremos um loop(forEach())
+            //para cada mensagem de erro receberemos um campo e , para cada campo,chamaremosPop.exibeMensagem()
+            camposInvalidos.forEach(campo=>{
+                PopUp.exibeMensagem('error',campo.message)
+            });
         }
+      
     }
     render() {
         //Pegamos os valores de state através das chaves nome , livro e preco
@@ -89,6 +94,7 @@ class Formulario extends Component {
                     <div className="input-field col s4">
                         <label className="input-field" htmlFor="nome">Nome</label>
                         <input
+                        className = "validate"
                             id="nome"
                             type="text"
                             name="nome"
@@ -99,6 +105,7 @@ class Formulario extends Component {
                     <div className="input-field col s4">
                         <label className="input-field" htmlFor="livro">Livro</label>
                         <input
+                        className = "validate"
                             id="livro"
                             type="text"
                             name="livro"
@@ -109,6 +116,7 @@ class Formulario extends Component {
                     <div className="input-field col s4">
                         <label className="input-field" htmlFor="preco">Preço</label>
                         <input
+                        className = "validate"
                             id="livro"
                             type="text"
                             name="preco"
